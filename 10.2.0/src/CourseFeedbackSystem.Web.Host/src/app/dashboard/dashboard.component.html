@@ -1,0 +1,124 @@
+<div [@routerTransition]>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <div class="d-flex flex-column-fluid">
+            <div class="container">
+                <div class="row">
+                    <!-- Statistics Cards -->
+                    <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                        <div class="card card-custom card-stretch">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-comments fa-3x text-primary"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5 class="text-muted mb-1">{{ 'TotalFeedbacks' | localize }}</h5>
+                                        <h2 class="mb-0">{{ statistics.totalFeedbacks }}</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                        <div class="card card-custom card-stretch">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-book fa-3x text-success"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5 class="text-muted mb-1">{{ 'TotalCourses' | localize }}</h5>
+                                        <h2 class="mb-0">{{ statistics.totalCourses }}</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                        <div class="card card-custom card-stretch">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-check-circle fa-3x text-info"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5 class="text-muted mb-1">{{ 'ActiveCourses' | localize }}</h5>
+                                        <h2 class="mb-0">{{ statistics.activeCourses }}</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                        <div class="card card-custom card-stretch">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-star fa-3x text-warning"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5 class="text-muted mb-1">{{ 'AverageRating' | localize }}</h5>
+                                        <h2 class="mb-0">{{ statistics.averageRating | number: '1.2-2' }}</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Courses Card -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-custom">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <span class="card-icon">
+                                        <i class="flaticon2-chat-1 text-primary"></i>
+                                    </span>
+                                    <h3 class="card-label">{{ 'Top5CoursesByRating' | localize }}</h3>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>{{ 'Rank' | localize }}</th>
+                                                <th>{{ 'CourseName' | localize }}</th>
+                                                <th>{{ 'InstructorName' | localize }}</th>
+                                                <th>{{ 'AverageRating' | localize }}</th>
+                                                <th>{{ 'FeedbackCount' | localize }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let course of topCourses; let i = index">
+                                                <td>{{ i + 1 }}</td>
+                                                <td>{{ course.courseName }}</td>
+                                                <td>{{ course.instructorName }}</td>
+                                                <td>
+                                                    <span class="badge badge-success">
+                                                        {{ course.averageRating | number: '1.2-2' }}
+                                                    </span>
+                                                </td>
+                                                <td>{{ course.feedbackCount }}</td>
+                                            </tr>
+                                            <tr *ngIf="topCourses.length === 0">
+                                                <td colspan="5" class="text-center">
+                                                    {{ 'NoData' | localize }}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,67 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        <span>{{ 'CreateNewCourse' | localize }}</span>
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form #courseForm="ngForm" (ngSubmit)="save()">
+        
+        
+        <div class="form-group">
+            <label for="courseName">{{ 'CourseName' | localize }} *</label>
+            <input
+                id="courseName"
+                class="form-control"
+                type="text"
+                name="courseName"
+                [(ngModel)]="course.courseName"
+                #courseNameModel="ngModel"
+                required
+                maxlength="250"
+            />
+            <abp-validation-summary [control]="courseNameModel.control"></abp-validation-summary>
+        </div>
+
+        <div class="form-group">
+            <label for="courseName">{{ 'CourseName' | localize }} *</label>
+            <input
+                id="courseName"
+                class="form-control"
+                type="text"
+                name="courseName"
+                [(ngModel)]="course.courseName"
+                #courseNameModel="ngModel"
+                required
+                maxlength="250"
+            />
+            <div *ngIf="courseNameModel.invalid && courseNameModel.touched" class="text-danger">
+                Course name is required
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>
+                <input
+                    type="checkbox"
+                    name="isActive"
+                    [(ngModel)]="course.isActive"
+                />
+                {{ 'IsActive' | localize }}
+            </label>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">
+        {{ 'Cancel' | localize }}
+    </button>
+    <button type="button" class="btn btn-primary" [disabled]="!courseForm.valid || saving" (click)="save()">
+        <i class="fa fa-spinner fa-spin" *ngIf="saving"></i>
+        <i class="fa fa-check" *ngIf="!saving"></i>
+        {{ 'Save' | localize }}
+    </button>
+</div>
+

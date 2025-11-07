@@ -1,0 +1,103 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        <span>{{ 'EditFeedback' | localize }}</span>
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form #feedbackForm="ngForm">
+        <abp-validation-summary></abp-validation-summary>
+
+        <div class="form-group">
+            <label for="studentName">{{ 'StudentName' | localize }} *</label>
+            <input
+                id="studentName"
+                class="form-control"
+                type="text"
+                name="studentName"
+                [(ngModel)]="feedback.studentName"
+                required
+                maxlength="200"
+            />
+        </div>
+
+        <div class="form-group">
+            <label for="courseId">{{ 'Course' | localize }} *</label>
+            <select
+                id="courseId"
+                class="form-control"
+                name="courseId"
+                [(ngModel)]="feedback.courseId"
+                required>
+                <option [ngValue]="null">{{ 'SelectCourse' | localize }}</option>
+                <option *ngFor="let course of courses" [ngValue]="course.id">
+                    {{ course.courseName }}
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="rating">{{ 'Rating' | localize }} * (1-5)</label>
+            <input
+                id="rating"
+                class="form-control"
+                type="number"
+                name="rating"
+                [(ngModel)]="feedback.rating"
+                required
+                min="1"
+                max="5"
+            />
+        </div>
+
+        <div class="form-group">
+            <label for="comment">{{ 'Comment' | localize }}</label>
+            <textarea
+                id="comment"
+                class="form-control"
+                name="comment"
+                [(ngModel)]="feedback.comment"
+                rows="4"
+            ></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="file">{{ 'File' | localize }} (PDF, JPG, PNG - Max 10MB)</label>
+            <input
+                id="file"
+                type="file"
+                class="form-control"
+                (change)="onFileSelected($event)"
+                accept=".pdf,.jpg,.jpeg,.png"
+            />
+            <div *ngIf="feedback.fileUrl" class="mt-2">
+                <a [href]="feedback.fileUrl" target="_blank" class="btn btn-sm btn-info">
+                    <i class="fa fa-download"></i> {{ 'ViewCurrentFile' | localize }}
+                </a>
+            </div>
+            <div *ngIf="isUploading" class="mt-2">
+                <div class="progress">
+                    <div
+                        class="progress-bar"
+                        role="progressbar"
+                        [style.width.%]="uploadProgress">
+                        {{ uploadProgress }}%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">
+        {{ 'Cancel' | localize }}
+    </button>
+    <button type="button" class="btn btn-primary" [disabled]="!feedbackForm.valid || saving || isUploading" (click)="save()">
+        <i class="fa fa-spinner fa-spin" *ngIf="saving || isUploading"></i>
+        <i class="fa fa-check" *ngIf="!saving && !isUploading"></i>
+        {{ 'Save' | localize }}
+    </button>
+</div>
+
