@@ -85,22 +85,31 @@ public class FeedbackAppService : AsyncCrudAppService<Feedback, FeedbackDto, int
             throw new UserFriendlyException("Cannot add feedback to an inactive course.");
         }
 
-        // Check tenant setting for max feedbacks per course
-        var maxFeedbackPerCourse = await _settingManager.GetSettingValueForTenantAsync<int>(
-            AppSettingNames.MaxFeedbackPerCourse, 
-            AbpSession.TenantId ?? 0);
-
-        if (maxFeedbackPerCourse > 0)
+        // Check tenant setting for max feedbacks per course (only for tenant users)
+        if (AbpSession.TenantId.HasValue)
         {
-            var feedbackCount = await Repository.CountAsync(x => x.CourseId == input.CourseId);
-            if (feedbackCount >= maxFeedbackPerCourse)
+            var maxFeedbackPerCourse = await _settingManager.GetSettingValueForTenantAsync<int>(
+                AppSettingNames.MaxFeedbackPerCourse, 
+                AbpSession.TenantId.Value);
+
+            if (maxFeedbackPerCourse > 0)
             {
-                throw new UserFriendlyException($"Maximum feedback limit ({maxFeedbackPerCourse}) reached for this course.");
+                var feedbackCount = await Repository.CountAsync(x => x.CourseId == input.CourseId);
+                if (feedbackCount >= maxFeedbackPerCourse)
+                {
+                    throw new UserFriendlyException($"Maximum feedback limit ({maxFeedbackPerCourse}) reached for this course.");
+                }
             }
         }
 
         var feedback = ObjectMapper.Map<Feedback>(input);
         feedback.CreatedDate = DateTime.UtcNow;
+        
+        // Explicitly set TenantId for multi-tenancy
+        if (AbpSession.TenantId.HasValue)
+        {
+            feedback.TenantId = AbpSession.TenantId.Value;
+        }
 
         await Repository.InsertAsync(feedback);
         await CurrentUnitOfWork.SaveChangesAsync();
