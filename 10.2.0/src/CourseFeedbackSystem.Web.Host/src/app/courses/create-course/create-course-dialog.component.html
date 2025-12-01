@@ -8,22 +8,7 @@
 </div>
 <div class="modal-body">
     <form #courseForm="ngForm" (ngSubmit)="save()">
-        
-        
-        <div class="form-group">
-            <label for="courseName">{{ 'CourseName' | localize }} *</label>
-            <input
-                id="courseName"
-                class="form-control"
-                type="text"
-                name="courseName"
-                [(ngModel)]="course.courseName"
-                #courseNameModel="ngModel"
-                required
-                maxlength="250"
-            />
-            <abp-validation-summary [control]="courseNameModel.control"></abp-validation-summary>
-        </div>
+        <abp-validation-summary></abp-validation-summary>
 
         <div class="form-group">
             <label for="courseName">{{ 'CourseName' | localize }} *</label>
@@ -33,13 +18,21 @@
                 type="text"
                 name="courseName"
                 [(ngModel)]="course.courseName"
-                #courseNameModel="ngModel"
                 required
                 maxlength="250"
             />
-            <div *ngIf="courseNameModel.invalid && courseNameModel.touched" class="text-danger">
-                Course name is required
-            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="instructorName">{{ 'InstructorName' | localize }}</label>
+            <input
+                id="instructorName"
+                class="form-control"
+                type="text"
+                name="instructorName"
+                [(ngModel)]="course.instructorName"
+                maxlength="250"
+            />
         </div>
 
         <div class="form-group">

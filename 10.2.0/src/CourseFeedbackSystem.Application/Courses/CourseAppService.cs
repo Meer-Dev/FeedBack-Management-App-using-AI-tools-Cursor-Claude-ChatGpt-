@@ -3,9 +3,11 @@ using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
+using Abp.UI;
 using CourseFeedbackSystem.Authorization;
 using CourseFeedbackSystem.Courses.Dto;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
@@ -40,18 +42,38 @@ public class CourseAppService : AsyncCrudAppService<Course, CourseDto, int, Page
 
     public override async Task<CourseDto> CreateAsync(CourseDto input)
     {
-        CheckCreatePermission();
-        
-        if (string.IsNullOrWhiteSpace(input.CourseName))
+        try
         {
-            throw new Abp.UI.UserFriendlyException("Course name is required.");
+            CheckCreatePermission();
+            
+            if (string.IsNullOrWhiteSpace(input.CourseName))
+            {
+                throw new UserFriendlyException("Course name is required.");
+            }
+
+            var course = ObjectMapper.Map<Course>(input);
+            
+            // Explicitly set TenantId for multi-tenancy
+            if (AbpSession.TenantId.HasValue)
+            {
+                course.TenantId = AbpSession.TenantId.Value;
+            }
+            else
+            {
+                // If Host, assign to default tenant (TenantId = 1)
+                course.TenantId = 1;
+            }
+            
+            await Repository.InsertAsync(course);
+            await CurrentUnitOfWork.SaveChangesAsync();
+
+            return MapToEntityDto(course);
         }
-
-        var course = ObjectMapper.Map<Course>(input);
-        await Repository.InsertAsync(course);
-        await CurrentUnitOfWork.SaveChangesAsync();
-
-        return MapToEntityDto(course);
+        catch (Exception ex)
+        {
+            Logger.Error("Error creating course", ex);
+            throw new UserFriendlyException("Error creating course: " + ex.Message + (ex.InnerException != null ? " | " + ex.InnerException.Message : ""));
+        }
     }
 
     public override async Task<CourseDto> UpdateAsync(CourseDto input)
@@ -60,7 +82,7 @@ public class CourseAppService : AsyncCrudAppService<Course, CourseDto, int, Page
         
         if (string.IsNullOrWhiteSpace(input.CourseName))
         {
-            throw new Abp.UI.UserFriendlyException("Course name is required.");
+            throw new UserFriendlyException("Course name is required.");
         }
 
         var course = await Repository.GetAsync(input.Id);
@@ -71,4 +93,3 @@ public class CourseAppService : AsyncCrudAppService<Course, CourseDto, int, Page
         return MapToEntityDto(course);
     }
 }
-

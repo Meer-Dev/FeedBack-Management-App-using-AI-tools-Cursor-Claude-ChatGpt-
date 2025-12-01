@@ -56,7 +56,7 @@ export class CreateFeedbackDialogComponent extends AppComponentBase implements O
         this.feedback.studentName = '';
         this.feedback.courseId = 0;
         this.feedback.comment = '';
-        this.feedback.rating = 5;
+        this.feedback.rating = null; // No default value
         this.feedback.fileUrl = '';
     }
 
@@ -73,6 +73,11 @@ export class CreateFeedbackDialogComponent extends AppComponentBase implements O
                 this.notify.error(this.l('FailedToLoadCourses'));
             }
         });
+    }
+
+    onCourseChange(event: any): void {
+        console.log('Course changed:', event);
+        console.log('Current feedback.courseId:', this.feedback.courseId);
     }
 
     onFileSelected(event: any): void {
@@ -165,7 +170,8 @@ export class CreateFeedbackDialogComponent extends AppComponentBase implements O
             // Ensure Id is 0 for create
             this.feedback.id = 0;
 
-            console.log('Creating feedback:', this.feedback);
+            console.log('Creating feedback - Full Payload:', JSON.stringify(this.feedback));
+            console.log('CourseId being sent:', this.feedback.courseId);
 
             // Create the feedback
             this._feedbackService.create(this.feedback)

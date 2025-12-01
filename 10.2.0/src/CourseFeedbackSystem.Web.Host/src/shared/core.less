@@ -75,3 +75,215 @@ table.table {
 .p-paginator .p-paginator-current {
     color: #6c757d !important;
 }
+
+/* ------------------------------------------------------------------
+   Minimal, clean, high-contrast theme overrides
+   ------------------------------------------------------------------ */
+
+body {
+    font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: #f5f7fb;
+    color: #111827;
+}
+
+a {
+    color: #2563eb;
+}
+
+a:hover,
+a:focus {
+    color: #1d4ed8;
+}
+
+/* Header (top navbar) -------------------------------------------------- */
+
+.main-header.navbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.main-header .navbar-nav .nav-link {
+    color: #374151;
+}
+
+.main-header .navbar-nav .nav-link:hover,
+.main-header .navbar-nav .nav-link:focus {
+    color: #111827;
+    background-color: #f3f4f6;
+}
+
+/* Sidebar --------------------------------------------------------------- */
+
+.main-sidebar,
+.sidebar-dark-primary {
+    background-color: #111827 !important;
+}
+
+.sidebar-dark-primary .brand-link,
+.sidebar-dark-primary .user-panel .info,
+.sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link,
+.sidebar-dark-primary .nav-sidebar .nav-link p {
+    color: #e5e7eb;
+}
+
+.sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active,
+.sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active p {
+    background-color: #2563eb;
+    color: #ffffff;
+}
+
+.sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link:hover {
+    background-color: #1f2937;
+}
+
+/* Content area ---------------------------------------------------------- */
+
+.content-wrapper {
+    background-color: #f9fafb;
+    color: #111827;
+}
+
+.content-header {
+    padding-top: 1.25rem;
+    padding-bottom: 0.75rem;
+}
+
+.content {
+    padding: 1.5rem;
+}
+
+/* Cards / boxes --------------------------------------------------------- */
+
+.card,
+.content-wrapper .card,
+.box {
+    background-color: #ffffff;
+    color: #111827;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.card-header,
+.box-header {
+    border-bottom: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+    color: #111827;
+}
+
+/* Forms ----------------------------------------------------------------- */
+
+label {
+    color: #374151;
+    font-weight: 500;
+}
+
+.form-control {
+    background-color: #ffffff;
+    border-color: #d1d5db;
+    color: #111827;
+}
+
+.form-control:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.25);
+}
+
+/* Buttons & primary accents --------------------------------------------- */
+
+.btn-primary,
+.bg-primary,
+.badge-primary {
+    background-color: #2563eb !important;
+    border-color: #2563eb !important;
+    color: #ffffff !important;
+}
+
+.btn-primary:hover,
+.bg-primary:hover {
+    background-color: #1d4ed8 !important;
+    border-color: #1d4ed8 !important;
+}
+
+.btn-secondary {
+    background-color: #e5e7eb;
+    border-color: #e5e7eb;
+    color: #111827;
+}
+
+.btn-secondary:hover {
+    background-color: #d1d5db;
+    border-color: #d1d5db;
+}
+
+/* Tables ---------------------------------------------------------------- */
+
+table.table thead th {
+    background-color: #f3f4f6;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+table.table tbody tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+table.table tbody tr:hover {
+    background-color: #e5effe;
+}
+
+/* Light variants -------------------------------------------------------- */
+
+.bg-light,
+.badge-light,
+.btn-light {
+    background-color: #e5e7eb !important;
+    color: #111827 !important;
+    border-color: #d1d5db !important;
+}
+
+.modal-content,
+.modal-header,
+.modal-body,
+.modal-footer {
+    background-color: #ffffff;
+    color: #111827;
+    border-color: #e5e7eb;
+}
+
+/* PrimeNG table overrides (roles, users, etc.) -------------------------- */
+
+.primeng-datatable-container table {
+    border-collapse: collapse;
+}
+
+.primeng-datatable-container table thead tr {
+    background-color: #111827;
+    color: #ffffff;
+}
+
+.primeng-datatable-container table thead th {
+    border-color: #1f2937;
+}
+
+.primeng-datatable-container table tbody tr {
+    background-color: #ffffff !important;
+    color: #111827 !important;
+}
+
+.primeng-datatable-container table tbody tr:nth-child(even) {
+    background-color: #f9fafb !important;
+}
+
+.primeng-datatable-container table tbody tr:hover {
+    background-color: #e5effe !important;
+}
+
+/* Utilities ------------------------------------------------------------- */
+
+.text-muted {
+    color: #6b7280 !important;
+}
+
+.bg-light {
+    background-color: #f3f4f6 !important;
+}

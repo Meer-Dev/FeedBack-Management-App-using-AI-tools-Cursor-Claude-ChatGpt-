@@ -65,56 +65,69 @@ public class FeedbackAppService : AsyncCrudAppService<Feedback, FeedbackDto, int
 
     public override async Task<FeedbackDto> CreateAsync(CreateUpdateFeedbackDto input)
     {
-        CheckCreatePermission();
-
-        // Validate rating
-        if (input.Rating < 1 || input.Rating > 5)
+        try
         {
-            throw new UserFriendlyException("Rating must be between 1 and 5.");
-        }
+            CheckCreatePermission();
 
-        // Validate course exists and is active
-        var course = await _courseRepository.GetAsync(input.CourseId);
-        if (course == null)
-        {
-            throw new UserFriendlyException("Course not found.");
-        }
-
-        if (!course.IsActive)
-        {
-            throw new UserFriendlyException("Cannot add feedback to an inactive course.");
-        }
-
-        // Check tenant setting for max feedbacks per course (only for tenant users)
-        if (AbpSession.TenantId.HasValue)
-        {
-            var maxFeedbackPerCourse = await _settingManager.GetSettingValueForTenantAsync<int>(
-                AppSettingNames.MaxFeedbackPerCourse, 
-                AbpSession.TenantId.Value);
-
-            if (maxFeedbackPerCourse > 0)
+            // Validate rating
+            if (input.Rating < 1 || input.Rating > 5)
             {
-                var feedbackCount = await Repository.CountAsync(x => x.CourseId == input.CourseId);
-                if (feedbackCount >= maxFeedbackPerCourse)
+                throw new UserFriendlyException("Rating must be between 1 and 5.");
+            }
+
+            // Validate course exists and is active
+            var course = await _courseRepository.GetAsync(input.CourseId);
+            if (course == null)
+            {
+                throw new UserFriendlyException("Course not found.");
+            }
+
+            if (!course.IsActive)
+            {
+                throw new UserFriendlyException("Cannot add feedback to an inactive course.");
+            }
+
+            // Check tenant setting for max feedbacks per course (only for tenant users)
+            if (AbpSession.TenantId.HasValue)
+            {
+                var maxFeedbackPerCourse = await _settingManager.GetSettingValueForTenantAsync<int>(
+                    AppSettingNames.MaxFeedbackPerCourse, 
+                    AbpSession.TenantId.Value);
+
+                if (maxFeedbackPerCourse > 0)
                 {
-                    throw new UserFriendlyException($"Maximum feedback limit ({maxFeedbackPerCourse}) reached for this course.");
+                    var feedbackCount = await Repository.CountAsync(x => x.CourseId == input.CourseId);
+                    if (feedbackCount >= maxFeedbackPerCourse)
+                    {
+                        throw new UserFriendlyException($"Maximum feedback limit ({maxFeedbackPerCourse}) reached for this course.");
+                    }
                 }
             }
-        }
 
-        var feedback = ObjectMapper.Map<Feedback>(input);
-        feedback.CreatedDate = DateTime.UtcNow;
-        
-        // Explicitly set TenantId for multi-tenancy
-        if (AbpSession.TenantId.HasValue)
+            var feedback = ObjectMapper.Map<Feedback>(input);
+            feedback.CreatedDate = DateTime.UtcNow;
+            
+            // Explicitly set TenantId for multi-tenancy
+            if (AbpSession.TenantId.HasValue)
+            {
+                feedback.TenantId = AbpSession.TenantId.Value;
+            }
+            else
+            {
+                // If Host, use the course's TenantId
+                feedback.TenantId = course.TenantId;
+            }
+
+            await Repository.InsertAsync(feedback);
+            await CurrentUnitOfWork.SaveChangesAsync();
+
+            return await GetAsync(new EntityDto<int> { Id = feedback.Id });
+        }
+        catch (Exception ex)
         {
-            feedback.TenantId = AbpSession.TenantId.Value;
+            Logger.Error("Error creating feedback", ex);
+            throw new UserFriendlyException("Error creating feedback: " + ex.Message + (ex.InnerException != null ? " | " + ex.InnerException.Message : ""));
         }
-
-        await Repository.InsertAsync(feedback);
-        await CurrentUnitOfWork.SaveChangesAsync();
-
-        return await GetAsync(new EntityDto<int> { Id = feedback.Id });
     }
 
     public override async Task<FeedbackDto> UpdateAsync(CreateUpdateFeedbackDto input)

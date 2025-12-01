@@ -32,6 +32,8 @@ export class CreateCourseDialogComponent extends AppComponentBase implements OnI
     ) {
         super(injector);
         this.course = new CourseDto();
+        this.course.isActive = true; // Set default value
+        this.course.id = 0; // Ensure id is set for new course
     }
 
     ngOnInit(): void {}
@@ -51,7 +53,11 @@ export class CreateCourseDialogComponent extends AppComponentBase implements OnI
                 },
                 error: (error) => {
                     console.error('Error creating course:', error);
-                    this.notify.error(this.l('SaveFailed'));
+                    let errorMessage = this.l('SaveFailed');
+                    if (error.error && error.error.error) {
+                        errorMessage = error.error.error.message || errorMessage;
+                    }
+                    this.notify.error(errorMessage);
                 }
             });
     }
