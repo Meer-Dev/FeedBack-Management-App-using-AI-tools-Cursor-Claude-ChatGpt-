@@ -396,18 +396,20 @@ AI conversation logs are included in the `docs/ai-logs/` folder (if available).
 ### Dashboard
 ![Dashboard](docs/screenshots/dashboard.png)
 *Real-time analytics showing total feedback and top-rated courses*
+<img width="1549" height="718" alt="image" src="https://github.com/user-attachments/assets/1f344b8b-53f6-4545-8833-c6d67cb9966b" />
 
 ### Course List
 ![Course List](docs/screenshots/course-list.png)
 *Comprehensive course management with search and filters*
+<img width="1446" height="644" alt="image" src="https://github.com/user-attachments/assets/9b9cd439-64a2-4e19-9ea1-c9a4b01acab5" />
 
 ### Feedback Form
 ![Feedback Form](docs/screenshots/feedback-form.png)
 *User-friendly feedback submission with file upload*
+<img width="1335" height="867" alt="image" src="https://github.com/user-attachments/assets/68cc4f65-afcd-4be8-8cf5-5f3b39bb6889" />
 
-### Hangfire Dashboard
-![Hangfire](docs/screenshots/hangfire-dashboard.png)
-*Background job monitoring and management*
+<img width="1569" height="645" alt="image" src="https://github.com/user-attachments/assets/eb6d3d2e-121f-4d11-83a2-2be9a957fec3" />
+
 
 ---
 
@@ -516,7 +518,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Authors
 
-- **Meer Fareed** - *Initial work* - [YourGitHub](https://github.com/yourusername)
+- **Meer Fareed** - *Initial work* - https://github.com/yourusername)](https://github.com/Meer-Dev/FeedBack-Management-App-using-AI-tools-Cursor-Claude-ChatGpt-
 
 ---
 
@@ -533,7 +535,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For questions or issues:
 - **Email**: support@feedbackmanagement.com
-- **GitHub Issues**: [Create an issue](https://github.com/yourusername/FeedbackManagement/issues)
+- **GitHub Issues**: [Create an issue](https://github.com/Meer-Dev/FeedBack-Management-App-using-AI-tools-Cursor-Claude-ChatGpt-/issues)
 - **Documentation**: See `docs/` folder
 
 ---
